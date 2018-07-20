@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js **/*.jsx",
+    "lintfix": "eslint --fix **/*.js **/*.jsx",
     "start": "nodemon server/index.js",
     "build": "webpack -d --watch"
   },
