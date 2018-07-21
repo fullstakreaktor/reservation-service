@@ -5,15 +5,14 @@ USE airpnp;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR (20) NOT NULL,
+  username VARCHAR (30) NOT NULL,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE hosts (
   id INT NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE locations (
@@ -39,10 +38,7 @@ CREATE TABLE listings (
   max_guests INT,
   fees FLOAT DEFAULT 0,
   rate FLOAT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (host_id) REFERENCES hosts(id),
-  FOREIGN KEY (location_id) REFERENCES locations(id),
-  FOREIGN KEY (review_id) REFERENCES reviews(id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE booked_dates (
@@ -50,8 +46,7 @@ CREATE TABLE booked_dates (
   listing_id INT NOT NULL, 
   check_in DATE NOT NULL,
   check_out DATE NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (listing_id) REFERENCES listings(id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE reservations (
@@ -63,8 +58,7 @@ CREATE TABLE reservations (
   total_infants INT DEFAULT 0,
   total_charge FLOAT NOT NULL, 
   created_at DATE NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (guest_id) REFERENCES users(id)
+  PRIMARY KEY (id)
 );
   
   
