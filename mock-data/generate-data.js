@@ -14,7 +14,7 @@ const getRandomFloat = (min, max) => Math.random() * (max - min + 1) + min;
 const makeQuery = (table, fields, vals) => {
   const queryStr = `INSERT INTO ${table} (${fields.join(', ')}) VALUES ?`;
   db.query(queryStr, [vals], (err) => {
-    if (err) throw new Error(`Failed to post to ${table}`);
+    if (err) console.log(`Failed to post to ${table}: ${err}`);
     else console.log(`Posted to ${table}`);
   });
 };
@@ -38,7 +38,7 @@ const makeHostsData = () => {
   loopNtimes(100, () => {
     let userId = null;
     do {
-      userId = getRandomInt(0, 99);
+      userId = getRandomInt(1, 100);
     } while (memo[userId]);
     memo[userId] = 1;
     values.push([userId]);
@@ -78,7 +78,7 @@ const makeListingsData = () => {
     let id = null;
     fields.forEach((field) => {
       do {
-        id = getRandomInt(0, 99);
+        id = getRandomInt(1, 100);
       } while (memo[field][id]);
       row.push(id);
     });
@@ -102,7 +102,7 @@ const makeBookedDatesData = () => {
     // populate 80 unique listings
     let listingId = null;
     do {
-      listingId = getRandomInt(0, 99);
+      listingId = getRandomInt(1, 100);
     } while (memo[listingId]);
     loopNtimes(3, (i) => {
       // populate three months starting from date of current test
