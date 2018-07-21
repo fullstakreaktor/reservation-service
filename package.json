@@ -4,7 +4,7 @@
   "description": "reservation service for airpnp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint **/*.js **/*.jsx",
     "delint": "eslint --fix **/*.js **/*.jsx",
     "start": "nodemon server/index.js",
