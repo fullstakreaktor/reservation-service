@@ -7,4 +7,5 @@ const db = mysql.createConnection({
   database: 'airpnp',
 });
 
+
 module.exports = db;
