@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+<script>
+
+	fetch('http://localhost:3003/api/reservations/new', {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, same-origin, *omit
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify({listingId: 1, guestId: 1, checkIn: [2018, 5,1], checkOut: [2018, 5, 1], adults: 1, children: 2, infants: 3, total: 12.99}), // body data type must match "Content-Type" header
+    })
+</script>
+</body>
+</html>
