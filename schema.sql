@@ -62,7 +62,7 @@ CREATE TABLE reservations (
   total_children INT DEFAULT 0,
   total_infants INT DEFAULT 0,
   total_charge FLOAT NOT NULL, 
-  created_at DATE NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (guest_id) REFERENCES users(id)
 );
