@@ -12,20 +12,21 @@ const getBookedDatesByListingId = (id, callback) => {
 };
 
 const postNewBookedDates = (data, callback) => {
-  let queryStr = 'INSERT INTO booked_dates (listing_id, check_in, check_out) VALUES (?, ?, ?)';
-  db.query(queryStr, [data.listingId, data.checkIn, data.checkOut], callback);
+  let queryStr = 'INSERT INTO booked_dates (listing_id, check_in, check_out) VALUES (?)';
+  db.query(queryStr, [[data.listingId, data.checkIn, data.checkOut]], callback);
 };
 
 const postNewReservation = (data, callback) => {
   let queryStr = 'INSERT INTO reservations ' + 
-  	'(guest_id, booked_dates_id, total_adults, total_children, total_infants, total_charge) VALUES ?)';
+  	'(guest_id, booked_dates_id, total_adults, total_children, total_infants, total_charge) VALUES (?)';
   db.query(queryStr, [[data.guestId, data.bookedDatesId, data.adults, data.children, data.infants, data.total]], callback);
 };
 
 const deleteBookedDatesById = (id, callback) => {
-  let queryStr = 'DELETE FROM booked_dates WHERE id = (?)';
+  let queryStr = 'DELETE FROM booked_dates WHERE id = ?';
   db.query(queryStr, id, callback);
 }
+
 
 module.exports = {
 	getListingById,
