@@ -1,36 +1,49 @@
+const express = require('express');
 const db = require('../db/index.js');
+const utils = require('./utils.js');
 const app = express ();
 
 app.use(express.static('../public'))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+
+
+
 app.listen(3003, ()=> console.log('Listening at localhost:3003'));
 
-app.get('/api/listings/:listingId', (req, res) => {
-	db.getListingById(req.params.listingId, (err, result) => {
+
+app.get('/api/:collection/:listingId', (req, res) => {
+	//TODO: refactor using router
+	let method = null;
+	if (req.params.collection === 'listings') {
+		method = db.getListingById;
+	} else if (req.params.collection === 'dates') {
+		method = db.getBookedDatesByListingId;
+	} else {
+		res.status(400).end('Invalid endpoint');
+	}
+
+	method(req.params.listingId, (err, result) => {
 		if (err) {
-			res.status(500).send({err: "Something blew up!"});
+			res.status(500).send({err: 'Server oopsie ' + err});
 		} else if (result.length === 0){
-			res.status(404).send("No such listing!");
+			res.status(404).send('No such listing!');
 		} else res.send(result);
 	});
 });
 
+
 app.post('/api/reservations/new', (req, res) => {
-	var data = {};
-	data.listingId = req.body.listingId;
-	data.checkIn = new Date(...req.body.checkIn);
-	data.checkOut = new Date(...req.body.checkOut);
-	db.postNewBookedDates(data, (err, result) => {
+	//TODO: find more elegant implementation that ensures atomicity
+	data = utils.parseBookedDates(req.body);
+	db.postNewBookedDates(req.body, (err, result) => {
 		if (err) {
 			res.status(500).send({err: "Failed to post dates"});
-
 		}else {
 			req.body.bookedDatesId = result.insertId;
 			db.postNewReservation(req.body, (err, reservation) => {
 				if (err) {
-					console.log(err)
 					db.deleteBookedDatesById(result.insertId, (err, result) => {
 						res.status(500).send({err:"Failed to post reservation"});
 					});
@@ -39,4 +52,6 @@ app.post('/api/reservations/new', (req, res) => {
 		}
 	});
 });
+
+
 
