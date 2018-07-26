@@ -1,4 +1,5 @@
 import React from 'react';
+import PawRating from './PawRating.jsx';
 
 var ListingSnippet = (props) => (
   <div className="snippet-container">
@@ -7,7 +8,7 @@ var ListingSnippet = (props) => (
       <div>  per night</div>
     </div>
     <div className="row">
-      <img className="rating paw-1-half" src="./img/ratings-sprite.png" />
+      <PawRating rating={props.listing.avgRating}/>
       <div className="ratings-count">{props.listing.ratingsCount}</div>
      </div>
   </div>

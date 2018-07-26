@@ -10,7 +10,7 @@ class ReservationBox extends React.Component {
 		this.state = {
 			listing: {
 				rate: 10,
-				avgRating: 3.5,
+				avgRating: 2.4,
 				ratingsCount: 88
 			}
 		}

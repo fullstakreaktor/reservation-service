@@ -26,29 +26,29 @@ body{
 	margin: 0px 5px 0px 0px;
 }
 
-.rating{
-    width: 80px;
-    height: 20px;
-	object-fit: cover;
-	object-position: 0 0;
-
-	background-repeat: none;
+.full,
+.half,
+.none {
+    width: 15px;
+    height: 15px;
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
 }
 
-.paw-0 {
-    object-position: 0 0;
+.full {
+	background-image: url(./img/full.png);
 }
 
-.paw-0-half {
-	object-position: 0 -25px;
+.half {
+	background-image: url(./img/half.png);
 }
 
-.paw-1 {
-	object-position: 0 -50px;
+.none {
+	background-image: url(./img/none.png);
 }
 
-.paw-1-half {
-	object-position: 0 -75px;
+.ratings-count {
+	padding-left: 5px;
 }
 
 .details-container {
