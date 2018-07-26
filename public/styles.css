@@ -1,6 +1,6 @@
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: small;
+	font-size: 10pt;
 	color: #6F7678;
 }
 
@@ -12,7 +12,9 @@ body{
 
 .container {
 	border: 1px solid #e2e2e2;
-	padding: 20px;
+	padding: 24px;
+	height: 474px;
+	width: 328px;
 }
 
 .snippet-container {
@@ -33,4 +35,31 @@ body{
 .promo-container {
 	padding-top: 15px;
 	border-top: 1px solid #e2e2e2;
+	align-items: flex-start;
+}
+
+.promo-details {
+	float: left;
+}
+
+.catchphrase {
+	font-size: 12pt;
+	font-weight: bold;
+	line-height: 2;
+}
+
+.unleashed-icon {
+	height: 50px;
+	width: 100px;
+	float: right;
+	background-image: url(./img/unleashed.png);
+	background-size: 100px 50px;
+}
+
+.fetch-icon {
+	height: 70px;
+	width: 70px;
+	float: right;
+	background-image: url(./img/fetch.png);
+	background-size: 65px 70px;
 }
