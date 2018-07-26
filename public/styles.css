@@ -12,7 +12,9 @@ body{
 
 .container {
 	border: 1px solid #e2e2e2;
-	padding: 20px;
+	padding: 24px;
+	height: 474px;
+	width: 328px;
 }
 
 .snippet-container {
