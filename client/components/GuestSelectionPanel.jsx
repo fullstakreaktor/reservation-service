@@ -25,6 +25,7 @@ var GuestSelectionPanel =(props) => {
 	    count={props.counts.pups}
 	    maxReached={props.maxReached}
 	  />
+	  <div>{props.maxGuests} guests maximum.</div>
 	  <button onClick={props.onClose}>close</button>
 	</div>
   )

@@ -16,7 +16,9 @@ const postNewBookedDates = (data, callback) => {
   db.query(queryStr, [[data.listingId, data.checkIn, data.checkOut]], callback);
 };
 
-const postNewReservation = ({guestId, bookedDatesId, guests, total}, callback) => {
+const postNewReservation = ({
+  guestId, bookedDatesId, guests, total,
+}, callback) => {
   const queryStr = 'INSERT INTO reservations '
     + '(guest_id, booked_dates_id, total_adults, total_children, total_infants, total_charge) VALUES (?)';
   const values = [guestId, bookedDatesId, guests.adults, guests.children, guests.total, total];
