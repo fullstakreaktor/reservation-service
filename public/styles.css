@@ -32,14 +32,32 @@ body{
 	padding: 15px 0px 15px 0px;
 }
 
+.week-header {
+  display:grid;
+  grid-template-columns: repeat(7, 37px [col-start]); 
+  color: #e2e2e2;
+  font-size: small;
+  justify-items: center;
+}
+
+.month-grid {
+  display:grid;
+  grid-template-columns: repeat(7, 36px [col-start]);
+  grid-template-rows: repeat(6, 36px [row-start]);
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
+}
+
 .day-cell {
-  height: 38px;
-  width: 38px;
+  height: 36px;
+  width: 36px;
   border: 1px solid #e2e2e2;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: small;
 }
+
 
 .unavailable-date {
   pointer-events: none;
