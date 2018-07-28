@@ -4,11 +4,11 @@ import Day from './Day.jsx';
 var MonthGrid = (props) => {
   const days = [];
   for (let i = 0; i < props.startDay - 1; i++){
-    days.push(<Day key={-i} date={null} type={"unavailableDates"} />);
+    days.push(<Day key={-i} date={null} type={null} />);
   }
 
   for (let i = 1; i <= props.monthLength; i++) {
-    days.push(<Day key={i} clickHandler={props.clickHandler} date={i}  type={props.unavailableDates.includes(i)? "unavailable-date": "available-date"}/>)
+    days.push(<Day key={i} handleClick={props.handleClick} date={i}  type={props.unavailableDates.includes(i)? "day unavailable-date": " day available-date"}/>)
   }
 
   return (

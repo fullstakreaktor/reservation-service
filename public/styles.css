@@ -32,17 +32,37 @@ body{
 	padding: 15px 0px 15px 0px;
 }
 
-.month-container {
-  width:300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.prev-month-button,
+.next-month-button {
+  height: 36px;
+  width: 36px;
+  border: 1px solid  #e2e2e2;
+  border-radius: 5px;
+  background-color: white;
+  color:#555555;
+  font-weight: bold;
+  text-align: center;
 }
 
+.prev-month-button:hover,
+.next-month-button:hover {
+  border-color:#555555;
+}
+
+.prev-month-button {
+  float:left;
+}
+
+.next-month-button{
+  float:right;
+}
 .month-header {
   font-size: 1.25em;
   font-style: bold;
   text-align: center;
+  color: #555555;
+  padding-top:10px;
+  padding-bottom: 20px;
 }
 .week-header {
   display:grid;
@@ -60,16 +80,21 @@ body{
   grid-row-gap: 1px;
 }
 
-.day-cell {
+.cell {
+  height: 36px;
+  width: 36px;
+}
+
+.day {
   height: 36px;
   width: 36px;
   border: 1px solid #e2e2e2;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: small;
+  font-size: 0.75em;
+  font-weight:bold;
 }
-
 
 .unavailable-date {
   pointer-events: none;
@@ -77,6 +102,9 @@ body{
   color: #e2e2e2;
 }
 
+.available-date {
+  color: #555555;
+}
 .available-date:hover {
   background-color: #e2e2e2;
 }
@@ -90,15 +118,4 @@ body{
 .in-range-date:hover {
   background-color: #d3fcff;
   color: white;
-}
-
-
-.increase-guest-button,
-.decrease-guest-button {
-	
-}
-
-.promo-container {
-	padding-top: 15px;
-	border-top: 1px solid #e2e2e2;
 }
