@@ -4,9 +4,9 @@ import { Overlay } from 'react-bootstrap';
 import GuestSelectionPanel from './GuestSelectionPanel.jsx';
 
 var DropDownButtonContent = (props) => (
-  <div className="row">
+  <div className="row dropdown-content">
     <div>{props.adults} adults, {props.pups} pups</div>
-    <div className="drop-down-arrow">
+    <div className="dropdown-arrow">
       {props.arrowUp? <span>&#9660;</span> : <span>&#9650;</span>} 
     </div>
   </div>
