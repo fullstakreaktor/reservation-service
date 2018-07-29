@@ -32,6 +32,51 @@ body{
 	padding: 15px 0px 15px 0px;
 }
 
+.date-select-container {
+  width:100%;
+  height: 36px;
+  border: 1px solid #e2e2e2;
+}
+
+.calendar-dropdown-button {
+  float:left;
+  height: 36px;
+  width:40%;
+  border: 0px;
+  background-color: white;
+  color: #6F7678;
+  text-align: left;
+  font-size: 1.2em;
+}
+
+.calendar-dropdown-arrow {
+	float:left;
+	height: 36px;
+	width: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.calendar-dropdown-button:focus{
+  background-color: #97e7ed;
+  color: #43898e;
+}
+
+.calendar-panel {
+  width:308px;
+  padding: 10px;
+  border: 1px solid #e2e2e2;
+  display:inline-flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.nav-container {
+  width: 256px;
+  position: absolute;
+}
+
 .prev-month-button,
 .next-month-button {
   height: 36px;
@@ -56,6 +101,12 @@ body{
 .next-month-button{
   float:right;
 }
+.month-container {
+  width:300px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
 .month-header {
   font-size: 1.25em;
   font-style: bold;
@@ -68,7 +119,7 @@ body{
   display:grid;
   grid-template-columns: repeat(7, 37px [col-start]); 
   color: #e2e2e2;
-  font-size: 0.75em;
+  font-size: 0.8em;
   justify-items: center;
 }
 
@@ -92,7 +143,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75em;
+  font-size: 0.85em;
   font-weight:bold;
 }
 
@@ -118,4 +169,8 @@ body{
 .in-range-date:hover {
   background-color: #d3fcff;
   color: white;
+}
+
+.guest {
+	position: static;
 }

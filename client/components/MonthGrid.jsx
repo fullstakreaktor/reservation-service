@@ -3,7 +3,7 @@ import Day from './Day.jsx';
 
 var MonthGrid = (props) => {
   const days = [];
-  for (let i = 0; i < props.startDay - 1; i++){
+  for (let i = 1; i < props.startDay; i++){
     days.push(<Day key={-i} date={null} type={null} />);
   }
 
