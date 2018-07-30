@@ -21,7 +21,7 @@ class ReservationBox extends React.Component {
 			<div className="container">
 			  <ListingSnippet listing={this.state.listing}/>
 			  <ReservationDetails />
-			  <Promo />
+			  <Promo views={222} hasSetDates={false}/>
 			</div>
 		)
 	}
