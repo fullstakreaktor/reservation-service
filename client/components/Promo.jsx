@@ -2,7 +2,7 @@ import React from 'react';
 import RareFind from './RareFind.jsx';
 import ViewsCount from './ViewsCount.jsx';
 
-var Promo = (props) => {
+const Promo = (props) => {
   let details = null;
 
   if (props.hasSetDates && props.views >= 200) {
@@ -10,7 +10,9 @@ var Promo = (props) => {
   } else details = <ViewsCount views={props.views} />;
 
   return (
-    <div>{details}</div>
+    <div>
+      {details}
+    </div>
   );
 };
 

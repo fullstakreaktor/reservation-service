@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint **/*.js **/*.jsx",
-    "delint": "eslint --fix **/*.js **/*.jsx",
+    "delint": "eslint --fix **/*.js **/**/*.jsx",
     "start": "nodemon server/index.js",
     "build": "webpack -d --watch"
   },

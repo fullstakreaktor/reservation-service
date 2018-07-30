@@ -3,87 +3,106 @@ import ReactDOM from 'react-dom';
 import { Overlay } from 'react-bootstrap';
 import GuestSelectionPanel from './GuestSelectionPanel.jsx';
 
-var DropDownButtonContent = (props) => (
+const DropDownButtonContent = props => (
   <div className="row dropdown-content">
-    <div>{props.adults} adults, {props.pups} pups</div>
+    <div>
+      {props.adults}
+      {' '}
+adults,
+      {' '}
+      {props.pups}
+      {' '}
+pups
+    </div>
     <div className="dropdown-arrow">
-      {props.arrowUp? <span>&#9660;</span> : <span>&#9650;</span>} 
+      {props.arrowUp ? (
+        <span>
+&#9660;
+        </span>
+      ) : (
+        <span>
+&#9650;
+        </span>
+      )}
     </div>
   </div>
-)
+);
 
 class Guests extends React.Component {
   constructor(props) {
   	super(props);
-  	this.state={
-  		showPanel:false,
+  	this.state = {
+  		showPanel: false,
   		adults: 0,
   		pups: 0,
-  		maxReached: false
-  	}
+  		maxReached: false,
+  	};
   }
 
-  handleToggle ()  {
+  handleToggle() {
   	this.setState({
-  		showPanel: !this.state.showPanel
-  	})
+  		showPanel: !this.state.showPanel,
+  	});
   }
 
-  increaseGuests (guestType) {
+  increaseGuests(guestType) {
   	this.setState({
-  		[guestType]:this.state[guestType] + 1
-  	}, this.setButtonsState)
-  }
-  
-   decreaseGuests (guestType) {
-  	this.setState({
-  		[guestType] :this.state[guestType] - 1
-  	}, this.setButtonsState)
+  		[guestType]: this.state[guestType] + 1,
+  	}, this.setButtonsState);
   }
 
-  setButtonsState () {
+  decreaseGuests(guestType) {
+  	this.setState({
+  		[guestType]: this.state[guestType] - 1,
+  	}, this.setButtonsState);
+  }
+
+  setButtonsState() {
   	if (this.state.adults + this.state.pups === this.props.maxGuests) {
-      this.setState({maxReached: true});
-  	} 
-  	if (this.state.maxReached && this.state.adults + this.state.pups < this.props.maxGuests){
-  		this.setState({maxReached: false});
+      this.setState({ maxReached: true });
+  	}
+  	if (this.state.maxReached && this.state.adults + this.state.pups < this.props.maxGuests) {
+  		this.setState({ maxReached: false });
   	}
   }
 
 
-  render () {
+  render() {
   	return (
-	  <div>
-	    <div className="heading">Guests</div>
-	    <button 
-	      className="guests-dropdown-button"
-	      ref={ button => { this.target=button } }
-	      onClick={ this.handleToggle.bind(this) }
-	    >
-	      <DropDownButtonContent 
-	        adults={ this.state.adults } 
-	        pups={ this.state.pups } 
-	        arrowUp={ this.state.showPanel } />
-	    </button>
-	    <Overlay 
-	      onHide={() => this.setState( { showPanel:false } ) }
-	      show={ this.state.showPanel }
-	      rootClose
-	      placement="bottom" 
-	      container={ this }
-	      target={ () => ReactDOM.findDOMNode(this.target) }
-	    >
-		  <GuestSelectionPanel 
-		    onClose={ this.handleToggle.bind(this) } 
-		    counts={ {adults: this.state.adults, pups: this.state.pups} } 
-		    increaseGuests={ this.increaseGuests.bind(this) } 
-		    decreaseGuests={ this.decreaseGuests.bind(this) }
-		    maxReached={ this.state.maxReached }
-		    maxGuests={ this.props.maxGuests }
-		  />
-	    </Overlay>
-	  </div>
-	)
+    <div>
+      <div className="heading">
+Guests
+      </div>
+      <button
+        className="guests-dropdown-button"
+        ref={(button) => { this.target = button; }}
+        onClick={this.handleToggle.bind(this)}
+      >
+        <DropDownButtonContent
+          adults={this.state.adults}
+          pups={this.state.pups}
+          arrowUp={this.state.showPanel}
+        />
+      </button>
+      <Overlay
+        onHide={() => this.setState({ showPanel: false })}
+        show={this.state.showPanel}
+        rootClose
+        placement="bottom"
+        container={this}
+        target={() => ReactDOM.findDOMNode(this.target)}
+      >
+        <GuestSelectionPanel
+          onClose={this.handleToggle.bind(this)}
+          counts={{ adults: this.state.adults, pups: this.state.pups }}
+          increaseGuests={this.increaseGuests.bind(this)}
+          decreaseGuests={this.decreaseGuests.bind(this)}
+          maxReached={this.state.maxReached}
+          maxGuests={this.props.maxGuests}
+        />
+      </Overlay>
+    </div>
+    );
   }
 }
 

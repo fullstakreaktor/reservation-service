@@ -57,6 +57,164 @@ body{
 	padding: 15px 0px 15px 0px;
 }
 
+.date-select-container {
+  width:100%;
+  height: 36px;
+  border: 1px solid #e2e2e2;
+}
+
+.calendar-dropdown-button {
+  float:left;
+  height: 36px;
+  width:40%;
+  border: 0px;
+  background-color: white;
+  color: #6F7678;
+  text-align: left;
+  font-size: 1.2em;
+}
+
+.calendar-dropdown-arrow {
+	float:left;
+	height: 36px;
+	width: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.calendar-dropdown-button:focus{
+  background-color: #97e7ed;
+  color: #43898e;
+}
+
+.dates-panel {
+  width:288px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #e2e2e2;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calendar-container {
+  
+  display:flex;
+  justify-content: center;
+}
+
+.nav-container {
+  width: 256px;
+  position: absolute;
+}
+
+.prev-month-button,
+.next-month-button {
+  height: 36px;
+  width: 36px;
+  border: 1px solid  #e2e2e2;
+  border-radius: 5px;
+  background-color: white;
+  color:#555555;
+  font-weight: bold;
+  text-align: center;
+}
+
+.prev-month-button:hover,
+.next-month-button:hover {
+  border-color:#555555;
+}
+
+.prev-month-button {
+  float:left;
+}
+
+.next-month-button{
+  float:right;
+}
+.month-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.month-header {
+  font-size: 1.25em;
+  font-style: bold;
+  text-align: center;
+  color: #555555;
+  padding-top:10px;
+  padding-bottom: 20px;
+}
+.week-header {
+  display:grid;
+  grid-template-columns: repeat(7, 37px [col-start]); 
+  color: #e2e2e2;
+  font-size: 0.8em;
+  justify-items: center;
+}
+
+.month-grid {
+  display:grid;
+  grid-template-columns: repeat(7, 36px [col-start]);
+  grid-template-rows: repeat(6, 36px [row-start]);
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
+}
+
+.cell {
+  height: 36px;
+  width: 36px;
+}
+
+.day {
+  border: 1px solid #e2e2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85em;
+  font-weight:bold;
+}
+
+.unavailable-date {
+  pointer-events: none;
+  text-decoration: line-through;
+  color: #e2e2e2;
+}
+
+.available-date {
+  color: #555555;
+}
+.available-date:hover {
+  background-color: #e2e2e2;
+}
+
+.selected-date {
+  pointer-events: none;
+  color: white;
+  background-color: #178690;
+}
+
+.in-range-date {
+  background-color: #d3fcff;
+  color: white;
+}
+
+.calendar-footer {
+	width: 100%;
+	padding-top: 20px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.clear-dates-button {
+	border: 0px;
+	background-color: white;
+	color: #178690;
+	font-weight: bold;
+}
+
 .guests-dropdown-button {
 	width: 100%;
 	height: 36px;
