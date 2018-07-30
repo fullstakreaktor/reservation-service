@@ -12,7 +12,7 @@ class ReservationDetails extends React.Component {
 		return (
 			<div className='details-container'>
 			  <Dates />
-			  <Guests />
+			  <Guests maxGuests={5}/>
 			  <Book />
 			</div>
 		)
