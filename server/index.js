@@ -1,10 +1,11 @@
 const express = require('express');
+const path = require('path');
 const db = require('../db/index.js');
 const utils = require('./utils.js');
 
 const app = express();
 
-app.use(express.static('../public'));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -31,7 +32,6 @@ app.get('/api/:collection/:listingId', (req, res) => {
     } else res.send(result);
   });
 });
-
 
 
 app.post('/api/reservations/new', (req, res) => {
