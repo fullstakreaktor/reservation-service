@@ -1,56 +1,74 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Overlay } from 'react-bootstrap';
-import DatesPickerPanel from './DatesPickerPanel.jsx';
+import DatePicker from './DatePicker.jsx';
 
 class Dates extends React.Component {
 	constructor (props) {
 		super (props);
 		this.state={
-        	showPanel: false,
-        	selectedDate: null
+        	checkIn: null,
+        	checkOut: null,
+        	minStay: 1,
+        	currentPanel: 'Check In'
     	}
 	}
 
-	handleToggle ()  {
-	    this.setState({
-	      showPanel: !this.state.showPanel
-	  	})
-	  }
+	setCheckIn (dateArr) {
+		this.setState({
+			checkIn: new Date (...dateArr)
+		})
+	}
 
-	getSelectedDateString () {
-	  	if (!this.state.selectedDate) return null;
+	setCheckOut (dateArr) {
+		this.setState({
+			checkOut: new Date (...dateArr)
+		}, console.log("Bothdatesselected"))
+	}
+
+	getSelectedDateString (date) {
+	  	if (!date) return null;
 
 	  	let options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-	    return this.state.selectedDate.toLocaleDateString('en-US', options);
+	    return date.toLocaleDateString('en-US', options);
+	}
+
+	clearDates () {
+		this.setState({
+			checkIn: null,
+			checkOut: null
+		})
 	}
 
 	render () {
 		return (
 			<div>
-			    <div className="heading">Dates</div>
-			    <div className="date-select-container">
-		            <button
-		                className="calendar-dropdown-button checkin-button"
-		            	ref={ button => {this.target=button } }
-		            	onClick={ this.handleToggle.bind(this) }
-		            >
-		            	{this.getSelectedDateString() || this.props.buttonContent} 
-		          	</button>
-		          	<div className="calendar-dropdown-arrow">{'>'}</div>
-		          	<button className="calendar-dropdown-button">Check Out</button>
-		        </div>
-		        <Overlay
-		          	onHide={() =>this.setState( { showPanel: false} ) }
-		          	show={ this.state.showPanel }
-		          	rootClose
-		          	placement="bottom"
-		         	 container={ this }
-		          	target={ () => ReactDOM.findDOMNode(this.target)}
-		        >
-		          	<DatesPickerPanel handleClick={this.props.handleClick} handleMonthChange={this.props.handleMonthChange} />
-		        </Overlay>
+				<div className="heading">Dates</div>
+				<div 
+					className="date-select-container"
+					ref={div => {this.target=div} }
+				>
+					<DatePicker 
+						overlayTarget={ this.target}
+						overlayContainer={ this }
+						buttonLabel={this.getSelectedDateString(this.state.checkIn) || "Check In"}
+						handleDateSelect={this.setCheckIn.bind(this)}
+						handleReset={this.clearDates.bind(this)}  
+						checkInDate={this.state.checkIn}
+						checkOutDate={this.state.checkOut}
+						minStay={2}/>
+					<div className="calendar-dropdown-arrow">{'>'}</div>
+					<DatePicker 
+						overlayTarget={ this.target}
+						overlayContainer={ this }
+						buttonLabel={this.getSelectedDateString(this.state.checkOut) || "Check Out"}
+						handleDateSelect={this.setCheckOut.bind(this)}
+						handleReset={this.clearDates.bind(this)} 
+						checkInDate={this.state.checkIn}
+						checkOutDate={this.state.checkOut}
+						minStay={2}/>
+				</div>
 			</div>
+
 		)
 	}
 }

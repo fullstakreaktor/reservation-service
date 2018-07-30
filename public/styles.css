@@ -63,13 +63,21 @@ body{
   color: #43898e;
 }
 
-.calendar-panel {
-  width:308px;
-  padding: 10px;
+.dates-panel {
+  width:288px;
+  padding: 20px;
+  background-color: white;
   border: 1px solid #e2e2e2;
-  display:inline-flex;
-  justify-content: center;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calendar-container {
+  
+  display:flex;
+  justify-content: center;
 }
 
 .nav-container {
@@ -102,7 +110,6 @@ body{
   float:right;
 }
 .month-container {
-  width:300px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -137,8 +144,6 @@ body{
 }
 
 .day {
-  height: 36px;
-  width: 36px;
   border: 1px solid #e2e2e2;
   display: flex;
   align-items: center;
@@ -166,9 +171,23 @@ body{
   background-color: #178690;
 }
 
-.in-range-date:hover {
+.in-range-date {
   background-color: #d3fcff;
   color: white;
+}
+
+.calendar-footer {
+	width: 100%;
+	padding-top: 20px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.clear-dates-button {
+	border: 0px;
+	background-color: white;
+	color: #178690;
+	font-weight: bold;
 }
 
 .guest {

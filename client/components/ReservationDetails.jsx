@@ -11,7 +11,7 @@ class ReservationDetails extends React.Component {
 	render () {
 		return (
 			<div className='details-container'>
-			  <Dates className="checkin-dropdown-button" buttonContent="Check In" handleClick={this.handleClick} handleMonthChange={this.handleMonthChange}/>
+			  <Dates today={new Date()}className="checkin-dropdown-button" buttonContent="Check In" handleClick={this.handleClick} handleMonthChange={this.handleMonthChange}/>
 			  <Guests className="guests" maxGuests={5}/>
 			  <Book />
 			</div>
