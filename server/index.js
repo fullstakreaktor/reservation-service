@@ -34,7 +34,6 @@ app.get('/api/:collection/:listingId', (req, res) => {
 });
 
 
-
 app.post('/api/reservations/new', (req, res) => {
   // TODO: find more elegant implementation that ensures atomicity
   const data = utils.parseBookedDates(req.body);
