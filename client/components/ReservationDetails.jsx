@@ -1,7 +1,7 @@
 import React from 'react';
-import Dates from './Dates.js';
-import Guests from './Guests.js';
-import Book from './Book.js';
+import Dates from './Dates.jsx';
+import Guests from './Guests.jsx';
+import Book from './Book.jsx';
 
 class ReservationDetails extends React.Component {
   constructor(props) {
