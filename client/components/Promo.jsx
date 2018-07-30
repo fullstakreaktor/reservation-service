@@ -1,13 +1,19 @@
 import React from 'react';
+import RareFind from './RareFind.jsx';
+import ViewsCount from './ViewsCount.jsx';
 
-var Promo = (props) => (
-  <div className="promo-container row">
-    <div className="promo-details">
-      <div className="catchphrase">This is a rare find</div>
-      <div className="catchphrase2">Kony's place is usally booked</div>
+const Promo = (props) => {
+  let details = null;
+
+  if (props.hasSetDates && props.views >= 200) {
+  	details = <RareFind />;
+  } else details = <ViewsCount views={props.views} />;
+
+  return (
+    <div>
+      {details}
     </div>
-    <div>ICON</div>
-  </div>
-);
+  );
+};
 
 export default Promo;

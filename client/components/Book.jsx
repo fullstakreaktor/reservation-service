@@ -1,9 +1,11 @@
 import React from 'react';
 
-var Book = (props) => (
+const Book = props => (
 
   <div>
-    <button>Book</button>
+    <button>
+Book
+    </button>
   </div>
 
 );
