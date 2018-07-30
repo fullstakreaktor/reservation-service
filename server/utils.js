@@ -1,7 +1,9 @@
 const parseBookedDates = (data) => {
-  data.checkIn = new Date(...data.checkIn);
-  data.checkOut = new Date(...data.checkOut);
-  return data;
+  const result = {
+    checkIn: new Date(...data.checkIn),
+    checkOut: new Date(...data.checkOut),
+  };
+  return result;
 };
 
 module.exports = {
