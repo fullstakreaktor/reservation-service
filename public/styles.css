@@ -13,8 +13,11 @@ body{
 .container {
 	border: 1px solid #e2e2e2;
 	padding: 24px;
-	height: 474px;
+	height: 400px;
 	width: 328px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .snippet-container {
@@ -25,7 +28,7 @@ body{
 .rate {
 	font-size: x-large;
 	font-weight: bold;
-	margin: 0px 5px 0px 0px;
+	margin: 0px 5px 5px 0px;
 }
 
 .full,
@@ -55,23 +58,34 @@ body{
 
 .details-container {
 	padding: 15px 0px 15px 0px;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.heading {
+	padding: 5px 0px 5px 0px;
 }
 
 .date-select-container {
   width:100%;
-  height: 36px;
+  height: 40px;
   border: 1px solid #e2e2e2;
+  border-radius: 2px;
 }
 
 .calendar-dropdown-button {
   float:left;
-  height: 36px;
-  width:40%;
+  height: 40px;
+  padding-left: 10px;
+  width: 40%;
   border: 0px;
   background-color: white;
   color: #6F7678;
   text-align: left;
-  font-size: 1.2em;
+  font-size: 16px;
+  font-weight: lighter;
 }
 
 .calendar-dropdown-arrow {
@@ -200,7 +214,6 @@ body{
   background-color: #d3fcff;
   color: white;
 }
-
 .calendar-footer {
 	width: 100%;
 	padding-top: 20px;
@@ -217,15 +230,15 @@ body{
 
 .guests-dropdown-button {
 	width: 100%;
-	height: 36px;
+	height: 40px;
+	padding: 0px 10px 0px 10px;
 	border: 1px solid #e2e2e2;
 	border-radius: 2px;
 }
 
-
 .dropdown-content {
 	justify-content: space-between;
-    font-size: 11pt;
+    font-size: 16px;
 	font-weight:lighter;
 	color: #555555;
 }
@@ -243,7 +256,7 @@ body{
 	width: 100%;
 	height: 60px;
 	justify-content: space-between;
-	font-size: 11pt;
+	font-size: 12pt;
 	font-weight:lighter;
 	color: #555555;
 }
@@ -290,6 +303,16 @@ body{
 	float: right;
 }
 
+.book-button {
+	width: 100%;
+	height: 44px;
+	border: 1px solid #e2e2e2;
+	border-radius: 5px;
+	color: white;
+	background-color: #FF5A5F;
+	font-size: 14px;
+}
+
 
 .promo-container {
 	padding-top: 15px;
@@ -322,3 +345,4 @@ body{
 	background-image: url(./img/fetch.png);
 	background-size: 65px 70px;
 }
+

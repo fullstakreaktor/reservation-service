@@ -22,7 +22,7 @@ class Dates extends React.Component {
   setCheckOut(dateArr) {
     this.setState({
       checkOut: new Date(...dateArr),
-    }, console.log('Bothdatesselected'));
+    });
   }
 
   getSelectedDateString(date) {
@@ -42,9 +42,7 @@ class Dates extends React.Component {
   render() {
     return (
       <div>
-        <div className="heading">
-Dates
-        </div>
+        <div className="heading">Dates</div>
         <div
           className="date-select-container"
           ref={(div) => { this.target = div; }}

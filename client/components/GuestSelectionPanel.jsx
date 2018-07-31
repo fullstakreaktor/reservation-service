@@ -18,12 +18,13 @@ const GuestSelectionPanel = props => (
       maxReached={props.maxReached}
     />
     <div className="guests-constraints-info">
-      {props.maxGuests}
-      {' '}
-guests maximum. Eggs don't count toward the number of guests.
+      {`${props.maxGuests} guests maximum. Eggs don't count toward the number of guests.`}
     </div>
-    <button className="close-button" onClick={props.onClose}>
-close
+    <button 
+      className="close-button" 
+      onClick={props.onClose}
+    >
+      close
     </button>
   </div>
 );

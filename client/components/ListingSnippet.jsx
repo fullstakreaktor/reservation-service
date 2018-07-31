@@ -5,12 +5,10 @@ const ListingSnippet = props => (
   <div className="snippet-container">
     <div className="row">
       <div className="rate">
-$
-        {props.listing.rate}
+        {`$${props.listing.rate}`}
       </div>
       <div>
-        {' '}
-per night
+        {` per night`}
       </div>
     </div>
     <div className="row">

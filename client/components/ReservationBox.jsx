@@ -9,9 +9,11 @@ class ReservationBox extends React.Component {
     super(props);
     this.state = {
       listing: {
+        id: 10,
         rate: 10,
         avgRating: 2.4,
         ratingsCount: 88,
+        weeklyViews: 222
       },
     };
   }
@@ -20,8 +22,8 @@ class ReservationBox extends React.Component {
     return (
       <div className="container">
         <ListingSnippet listing={this.state.listing} />
-        <ReservationDetails />
-        <Promo views={222} hasSetDates={false} />
+        <ReservationDetails listing={this.state.listing}/>
+        <Promo views={this.state.weeklyViews} hasSetDates={false} />
       </div>
     );
   }
