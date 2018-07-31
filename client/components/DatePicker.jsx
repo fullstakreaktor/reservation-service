@@ -116,7 +116,7 @@ class DatePicker extends React.Component {
   setUnavailableDates() {
     this.setState({
       unavailableDates: this.getUnavailableDates(),
-    }, () => console.log(this.state));
+    });
   }
 
 

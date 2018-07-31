@@ -80,25 +80,25 @@ class MonthGrid extends React.Component {
         </div>
         <div className="week-header">
           <div>
-Su
+            Su
           </div>
           <div>
-Mo
+            Mo
           </div>
           <div>
-Tu
+            Tu
           </div>
           <div>
-We
+            We
           </div>
           <div>
-Th
+            Th
           </div>
           <div>
-Fr
+            Fr
           </div>
           <div>
-Sa
+            Sa
           </div>
         </div>
         <div className="month-grid">

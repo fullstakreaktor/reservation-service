@@ -6,24 +6,10 @@ import GuestSelectionPanel from './GuestSelectionPanel.jsx';
 const DropDownButtonContent = props => (
   <div className="row dropdown-content">
     <div>
-      {props.adults}
-      {' '}
-adults,
-      {' '}
-      {props.pups}
-      {' '}
-pups
+      { `${props.adults} adult${props.adults>1? 's':''}, ${props.pups} pup${props.pups>1? 's':''}`}
     </div>
     <div className="dropdown-arrow">
-      {props.arrowUp ? (
-        <span>
-&#9660;
-        </span>
-      ) : (
-        <span>
-&#9650;
-        </span>
-      )}
+      {props.arrowUp ? (<span>&#9660;</span> ) : (<span>&#9650;</span>)}
     </div>
   </div>
 );
