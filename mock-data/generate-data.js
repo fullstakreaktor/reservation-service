@@ -107,7 +107,7 @@ const makeBookedDatesData = () => {
     loopNtimes(3, (i) => {
       // populate three months starting from date of current test
       // with 2 reservations each month
-      const year = today.getYear();
+      const year = today.getFullYear();
       const month = today.getMonth() + i;
       const date1 = getRandomInt(5, 10);
       const date2 = getRandomInt(16, 24);

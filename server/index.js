@@ -28,7 +28,7 @@ app.get('/api/listings/:listingId', (req, res) => {
 app.get('/api/dates/:listingId', (req, res) => {
   // TODO: refactor using router
   let method = db.getBookedDatesByListingId;
-  let data = null;
+  let data = null; 
 
   if (req.query.targetDate) {
     method = db.getFirstBookedDateAfterTarget;
