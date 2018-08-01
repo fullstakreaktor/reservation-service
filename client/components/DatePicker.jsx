@@ -57,22 +57,27 @@ class DatePicker extends React.Component {
 
   getListingBookedDatesByMonth() {
     // TODO: replace mock data with ajax get request
-    const year = this.state.dateInView.getFullYear();
-    const month = this.state.dateInView.getMonth();
-    this.setState({
-      reservations: [
-        { checkIn: new Date(year, month, 5), checkOut: new Date(year, month, 7) },
-        { checkIn: new Date(year, month, 9), checkOut: new Date(year, month, 11) },
-        { checkIn: new Date(year, month, 19), checkOut: new Date(year, month, 27) },
-      ],
-    });
+    let [year, month] = utils.getYearMonth(this.state.dateInView);
+    let url = `http://localhost:3003/api/dates/${this.props.listingId}?month=${year}-${month+1}`;
+    fetch(url)
+    .then(res => res.json())
+    .then((res) => this.setState({ reservations: res}))
+    .catch(err => console.log(err))
   }
 
   getFirstUnavailableDateAfterCheckIn() {
-    const checkIn = this.props.checkIn;
     // TODO: write ajax get first reservation between checkin and this month
-    const results = [];
-    if (results.length < 1) return null;
+    let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
+    let url = `http://localhost:3003/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
+
+    return fetch(url)
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .then((res) => {
+        if (res.length === 0) return null;
+        else return new Date(res[0].check_in);
+      })
+      .catch(error => console.log(err))
   }
 
   getUnavailableDates() {
@@ -90,7 +95,8 @@ class DatePicker extends React.Component {
       return utils.blockEntireMonth();
     }
 
-    vacancyEnd = checkOut || this.getFirstUnavailableDateAfterCheckIn();
+    if (checkOut) vacancyEnd = checkOut;
+    else vacancyEnd =  await this.getFirstUnavailableDateAfterCheckIn();
 
     if (utils.isTargetPastMonth(current, vacancyStart)) {
       if (!vacancyEnd) {

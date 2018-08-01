@@ -56,6 +56,7 @@ class Dates extends React.Component {
             checkInDate={this.state.checkIn}
             checkOutDate={this.state.checkOut}
             minStay={2}
+            listingId={3}
           />
           <div className="calendar-dropdown-arrow">
             {'>'}
@@ -69,6 +70,7 @@ class Dates extends React.Component {
             checkInDate={this.state.checkIn}
             checkOutDate={this.state.checkOut}
             minStay={2}
+            listingId={3}
           />
         </div>
       </div>

@@ -2,8 +2,9 @@
 const blockBookedDates = (reservations, minStay) => {
 	let blockedDates = new Set();
 	reservations.forEach(reservation => {
-		let start = reservation.checkIn.getDate();
-		let end = reservation.checkOut.getDate();
+		console.log(reservations)
+		let start = new Date (reservation.check_in).getDate();
+		let end = new Date (reservation.check_out).getDate();
 		for ( var i = 1; i < minStay; i++) {
 			blockedDates.add(start-i);
 		}
