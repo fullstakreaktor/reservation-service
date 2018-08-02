@@ -1,12 +1,11 @@
-const dbconfig = require('opsworks');
 const mysql = require('mysql');
 
 const db = mysql.createConnection({
-  host: dbconfig.db['host'] || 'localhost',
-  user: dbconfig.db['username'] || 'root',
-  password: dbconfig.db['password'] || '',
-  port: dbconfig.db['port'] || 3306,
-  database: dbconfig.db['database'] || 'reservation'
+  host: process.env.RDS_HOSTNAME || 'localhost',
+  user: process.env.RDS_USERNAME || 'root',
+  password: process.env.RDS_PASSWORD || '',
+  port: process.env.RDS_PORT|| 3306,
+  database: 'reservation'
 });
 
 

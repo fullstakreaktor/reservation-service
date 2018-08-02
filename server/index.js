@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('../db/index.js');
 const utils = require('./utils.js');
+const PORT = process.env.PORT || 3003;
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-app.listen(3003, () => console.log('Listening at localhost:3003'));
+app.listen(PORT);
 
 
 app.get('/api/:collection/:listingId', (req, res) => {
