@@ -47,7 +47,7 @@ class DatePicker extends React.Component {
 
   handleDateSelect(date) {
     this.handleOverlayToggle();
-    this.props.handleDateSelect([...utils.getYearMonth(this.state.dateInView), date], this.setUnavailableDates.bind(this));
+    this.props.handleDateSelect([...utils.getYearMonth(this.state.dateInView), date]);
   }
 
   handleClearDate() {
@@ -70,17 +70,18 @@ class DatePicker extends React.Component {
     let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
     let url = `http://localhost:3003/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
 
-    return fetch(url)
+    fetch(url)
       .then(res => res.json())
       .then(res => console.log(res))
       .then((res) => {
         if (res.length === 0) return null;
         else return new Date(res[0].check_in);
       })
+      .then((firstBookingAfterCheckIn) => this.setUnavailableDates(firstBookingAfterCheckIn))
       .catch(error => console.log(err))
   }
 
-  getUnavailableDates() {
+  getUnavailableDates(firsBookingAfterCheckIn) {
     const checkIn = this.props.checkInDate;
     const checkOut = this.props.checkOutDate;
     const current = this.state.dateInView;
@@ -88,15 +89,12 @@ class DatePicker extends React.Component {
 
     if (!checkIn) return utils.blockBookedDates(this.state.reservations, this.props.minStay);
 
-    const vacancyStart = checkIn;
-    let vacancyEnd = null;
-
-    if (utils.isTargetFutureMonth(current, vacancyStart)) {
+    if (utils.isTargetFutureMonth(current, checkIn)) {
       return utils.blockEntireMonth();
     }
-
-    if (checkOut) vacancyEnd = checkOut;
-    else vacancyEnd =  await this.getFirstUnavailableDateAfterCheckIn();
+debugger;
+    let vacancyStart = checkIn;
+    let vacancyEnd = firsBookingAfterCheckIn || checkOut;
 
     if (utils.isTargetPastMonth(current, vacancyStart)) {
       if (!vacancyEnd) {
@@ -119,9 +117,10 @@ class DatePicker extends React.Component {
     return blockedDates.concat(utils.blockDatesAfterTarget(vacancyEnd));
   }
 
-  setUnavailableDates() {
+  setUnavailableDates(firstBookingAfterCheckIn) {
+    debugger;
     this.setState({
-      unavailableDates: this.getUnavailableDates(),
+      unavailableDates: this.getUnavailableDates(firstBookingAfterCheckIn),
     });
   }
 
