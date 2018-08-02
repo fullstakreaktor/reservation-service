@@ -1,4 +1,13 @@
-const db = require('./db.config.js');
+const dbconfig = require('opsworks');
+const local = require('./db.config.js');
+const mysql = require('mysql');
+const db = mysql.createConnection({
+  host: dbconfig.db['host'] || local.host,
+  user: dbconfig.db['username'] || local.user,
+  password: dbconfig.db['password'] || local.password,
+  port: dbconfig.db['port'] || local.port,
+  database: dbconfig.db['database'] || local.database
+});
 
 
 const getListingById = (id, callback) => {
@@ -20,8 +29,8 @@ const postNewReservation = ({
   guestId, bookedDatesId, guests, total,
 }, callback) => {
   const queryStr = 'INSERT INTO reservations '
-    + '(guest_id, booked_dates_id, total_adults, total_children, total_infants, total_charge) VALUES (?)';
-  const values = [guestId, bookedDatesId, guests.adults, guests.children, guests.total, total];
+    + '(guest_id, booked_dates_id, total_adults, total_pups, total_charge) VALUES (?)';
+  const values = [guestId, bookedDatesId, guests.adults, guests.pups, total];
   db.query(queryStr, [values], callback);
 };
 

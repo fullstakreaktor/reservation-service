@@ -46,15 +46,6 @@ const makeHostsData = () => {
   return values;
 };
 
-const makeLocationsData = () => {
-  const values = [];
-  loopNtimes(100, () => {
-    const zipcode = getRandomInt(11111, 88888);
-    values.push([zipcode]);
-  });
-  return values;
-};
-
 const makeReviewsData = () => {
   const values = [];
   loopNtimes(100, () => {
@@ -69,11 +60,10 @@ const makeListingsData = () => {
   const values = [];
   const memo = {
     hostId: {},
-    locationId: {},
     reviewId: {},
   };
   loopNtimes(100, () => {
-    const fields = ['hostId', 'locationId', 'reviewId'];
+    const fields = ['hostId', 'reviewId'];
     let row = [];
     let id = null;
     fields.forEach((field) => {
@@ -86,6 +76,7 @@ const makeListingsData = () => {
     const minStay = getRandomInt(1, 3);
     const maxGuests = getRandomInt(2, 10);
     const fees = getRandomFloat(1, 10);
+    const tax_rate = getRandomInt(1, 20);
     const rate = getRandomFloat(1, 300);
     row = row.concat(views, minStay, maxGuests, fees, rate);
     values.push(row);
@@ -151,9 +142,8 @@ const populateListingDescriptionsTable = () => {
 const populate = () => {
   makeQuery('users', ['username'], makeUsersData());
   makeQuery('hosts', ['user_id'], makeHostsData());
-  makeQuery('locations', ['zipcode'], makeLocationsData());
   makeQuery('reviews', ['total_reviews', 'avg_rating'], makeReviewsData());
-  makeQuery('listings', ['host_id', 'location_id', 'review_id', 'weekly_views', 'min_stay', 'max_guests', 'fees', 'rate'], makeListingsData());
+  makeQuery('listings', ['host_id', 'review_id', 'weekly_views', 'min_stay', 'max_guests', 'fees', 'tax_rate', 'rate'], makeListingsData());
   makeQuery('booked_dates', ['listing_id', 'check_in', 'check_out'], makeBookedDatesData());
 };
 
