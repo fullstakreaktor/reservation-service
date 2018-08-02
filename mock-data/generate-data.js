@@ -1,4 +1,14 @@
-const db = require('../db/db.config.js');
+//const dbconfig = require('opsworks');
+const dbconfig = { db: {}};
+const local = require('../db/db.config.js');
+const mysql = require('mysql');
+const db = mysql.createConnection({
+  host: dbconfig.db['host'] || local.host,
+  user: dbconfig.db['username'] || local.user,
+  password: dbconfig.db['password'] || local.password,
+  port: dbconfig.db['port'] || local.port,
+  database: dbconfig.db['database'] || local.database
+});
 
 // HELPER FUNCTIONS
 const loopNtimes = (n, callback) => {
@@ -76,9 +86,9 @@ const makeListingsData = () => {
     const minStay = getRandomInt(1, 3);
     const maxGuests = getRandomInt(2, 10);
     const fees = getRandomFloat(1, 10);
-    const tax_rate = getRandomInt(1, 20);
+    const taxRate = getRandomInt(1, 20);
     const rate = getRandomFloat(1, 300);
-    row = row.concat(views, minStay, maxGuests, fees, rate);
+    row = row.concat(views, minStay, maxGuests, fees, taxRate, rate);
     values.push(row);
   });
 
@@ -98,7 +108,7 @@ const makeBookedDatesData = () => {
     loopNtimes(3, (i) => {
       // populate three months starting from date of current test
       // with 2 reservations each month
-      const year = today.getYear();
+      const year = today.getFullYear();
       const month = today.getMonth() + i;
       const date1 = getRandomInt(5, 10);
       const date2 = getRandomInt(16, 24);
