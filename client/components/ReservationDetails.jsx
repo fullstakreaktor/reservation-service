@@ -10,7 +10,7 @@ class ReservationDetails extends React.Component {
       checkIn: null,
       checkOut: null,
       adults: 1,
-      pups: null
+      pups: 0
     }
   }
 
@@ -49,11 +49,32 @@ class ReservationDetails extends React.Component {
     }, this.props.onDatesReset);
   }
 
+  increaseGuests(guestType) {
+    this.setState({
+      [guestType]: this.state[guestType] + 1,
+    });
+  }
+
+  decreaseGuests(guestType) {
+    this.setState({
+      [guestType]: this.state[guestType] - 1,
+    });
+  }
+
+  setButtonsState() {
+    if (this.state.adults + this.state.pups === this.props.maxGuests) {
+      this.setState({ maxReached: true });
+    }
+    if (this.state.maxReached && this.state.adults + this.state.pups < this.props.maxGuests) {
+      this.setState({ maxReached: false });
+    }
+  }
+
 
   resetReservationDetails () {
     this.setState({
-      adults: null, 
-      pups: null
+      adults: 1, 
+      pups: 0
     }, this.clearDates);
   }
 
@@ -68,8 +89,12 @@ class ReservationDetails extends React.Component {
           onCheckOut={this.setCheckOut.bind(this)} 
           onReset={this.clearDates.bind(this)}/>
         <Guests 
+          adults={this.state.adults}
+          pups={this.state.pups}
           className="guests" 
-          maxGuests={this.props.maxGuests}/>
+          maxGuests={this.props.listing.maxGuests}
+          onIncrease={this.increaseGuests.bind(this)}
+          onDecrease={this.decreaseGuests.bind(this)}/>
         <button className="book-button">Book</button>
       </div>
     )
