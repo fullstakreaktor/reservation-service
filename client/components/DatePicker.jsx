@@ -8,11 +8,12 @@ class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        	showPanel: false,
-        	dateInView: this.props.checkInDate || new Date(),
-        	unavailableDates: [],
-        	reservations: [],
-    	};
+    	showPanel: false,
+    	dateInView: this.props.checkInDate || new Date(),
+    	unavailableDates: [],
+    	reservations: [],
+      firsBookingAfterCheckIn: null
+    };
   }
 
   componentDidMount() {
@@ -42,7 +43,7 @@ class DatePicker extends React.Component {
   handleMonthChange(direction) {
     this.setState({
       dateInView: utils.getAdjacentMonth(this.state.dateInView, direction),
-    });
+    }, this.getListingBookedDatesByMonth);
   }
 
   handleDateSelect(date) {
@@ -57,18 +58,20 @@ class DatePicker extends React.Component {
 
   getListingBookedDatesByMonth() {
     // TODO: replace mock data with ajax get request
+
     let [year, month] = utils.getYearMonth(this.state.dateInView);
-    let url = `http://localhost:3003/api/dates/${this.props.listingId}?month=${year}-${month+1}`;
+    let url = `/api/dates/${this.props.listingId}?month=${year}-${month+1}`;
     fetch(url)
     .then(res => res.json())
-    .then((res) => this.setState({ reservations: res}))
+    .then((res) => this.setState({ reservations: res}, this.setUnavailableDates))
+    .then(() => console.log(this.state))
     .catch(err => console.log(err))
   }
 
   getFirstUnavailableDateAfterCheckIn() {
     // TODO: write ajax get first reservation between checkin and this month
     let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
-    let url = `http://localhost:3003/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
+    let url = `/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
 
     fetch(url)
       .then(res => res.json())
@@ -77,31 +80,42 @@ class DatePicker extends React.Component {
         if (res.length === 0) return null;
         else return new Date(res[0].check_in);
       })
-      .then((firstBookingAfterCheckIn) => this.setUnavailableDates(firstBookingAfterCheckIn))
+      .then((res) => this.setState({ firsBookingAfterCheckIn: res}))
       .catch(error => console.log(err))
   }
 
-  getUnavailableDates(firsBookingAfterCheckIn) {
+  getUnavailableDates() {
     const checkIn = this.props.checkInDate;
     const checkOut = this.props.checkOutDate;
-    const current = this.state.dateInView;
+    const dateInView = this.state.dateInView;
+    const today = new Date ();
 
 
-    if (!checkIn) return utils.blockBookedDates(this.state.reservations, this.props.minStay);
+    if (!checkIn) {
+      let bookedDates = utils.blockBookedDates(this.state.reservations, this.props.minStay);
+      if (utils.isTargetSameMonth(dateInView, today)){
+        let date = 1;
+        while (date < today.getDate()) {
+          bookedDates.add(date);
+          date += 1;
+        }
+      }
+      return [...bookedDates];
+    }
 
-    if (utils.isTargetFutureMonth(current, checkIn)) {
+    if (utils.isTargetFutureMonth(dateInView, checkIn)) {
       return utils.blockEntireMonth();
     }
-debugger;
-    let vacancyStart = checkIn;
-    let vacancyEnd = firsBookingAfterCheckIn || checkOut;
 
-    if (utils.isTargetPastMonth(current, vacancyStart)) {
+    let vacancyStart = checkIn;
+    let vacancyEnd = checkOut || this.state.firsBookingAfterCheckIn;
+
+    if (utils.isTargetPastMonth(dateInView, vacancyStart)) {
       if (!vacancyEnd) {
         // i.e. vacancyEnd is sometime after month in view
         return [];
       }
-      if (utils.isTargetPastMonth(current, vacancyEnd)) {
+      if (utils.isTargetPastMonth(dateInView, vacancyEnd)) {
         return utils.blockEntireMonth();
       }
 
@@ -117,10 +131,9 @@ debugger;
     return blockedDates.concat(utils.blockDatesAfterTarget(vacancyEnd));
   }
 
-  setUnavailableDates(firstBookingAfterCheckIn) {
-    debugger;
+  setUnavailableDates() {
     this.setState({
-      unavailableDates: this.getUnavailableDates(firstBookingAfterCheckIn),
+      unavailableDates: this.getUnavailableDates(),
     });
   }
 

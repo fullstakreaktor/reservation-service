@@ -9,13 +9,13 @@ class ReservationDetails extends React.Component {
     this.state= {
       checkIn: null,
       checkOut: null,
-      adults: null,
+      adults: 1,
       pups: null
     }
   }
 
   postNewReservation () {
-    let url ='http://localhost:3003/api/reservations/new' + this.props.listing.id;
+    let url ='/api/reservations/new' + this.props.listingId;
     let options = {
       listingId: this.props.listing.id,
       checkIn: this.state.checkIn,
@@ -23,7 +23,6 @@ class ReservationDetails extends React.Component {
       guestId: 1,
       adults: this.state.adults, 
       pups: this.state.pups,
-      //TODO:amend db model and schema
 
     }
 
@@ -31,20 +30,47 @@ class ReservationDetails extends React.Component {
     .then(this.resetReservationDetails.bind(this));
   }
 
-  resetReservationDetails () {
+  setCheckIn(dateArr) {
+    debugger;
+    this.setState({
+      checkIn: new Date(...dateArr),
+    }, () => console.log(this.state));
+  }
+
+  setCheckOut(dateArr) {
+    this.setState({
+      checkOut: new Date(...dateArr),
+    }, () => this.props.onDatesSet(this.state.checkIn, this.state.checkOut));
+  }
+
+  clearDates() {
     this.setState({
       checkIn: null,
-      checkOut: null, 
+      checkOut: null,
+    }, this.props.onDatesReset);
+  }
+
+
+  resetReservationDetails () {
+    this.setState({
       adults: null, 
       pups: null
-    });
+    }, this.clearDates);
   }
 
   render () {
     return (
       <div className='details-container'>
-        <Dates />
-        <Guests className="guests" maxGuests={5}/>
+        <Dates 
+          listing={this.props.listing}
+          checkIn={this.state.checkIn}
+          checkOut={this.state.checkOut}
+          onCheckIn={this.setCheckIn.bind(this)} 
+          onCheckOut={this.setCheckOut.bind(this)} 
+          onReset={this.clearDates.bind(this)}/>
+        <Guests 
+          className="guests" 
+          maxGuests={this.props.maxGuests}/>
         <button className="book-button">Book</button>
       </div>
     )

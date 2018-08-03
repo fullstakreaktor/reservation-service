@@ -8,19 +8,6 @@ class ReservationBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listing: {
-        id: 33,
-        hostId: 33,
-        rate: 33,
-        minStay: 3,
-        maxGuests: 3,
-        fees: 3.33,
-        taxRate: 3,
-        avgRating: 3.3,
-        ratingsCount: 33,
-        weeklyViews: 333,
-
-      },
       hasDates: false
     };
   }
@@ -28,6 +15,7 @@ class ReservationBox extends React.Component {
   componentDidMount() {
     this.getListingInfo();
   }
+
   getListingInfo() {
     let url = `/api/listings/${this.props.listingId}`;
     fetch(url)
@@ -39,17 +27,18 @@ class ReservationBox extends React.Component {
   handleDatesSelect () {
     this.setState({
       hasDates: true
-    })
+    },() => console.log(this.state))
   }
 
   handleDatesReset () {
     this.setState ({
       hasDates: false
-    })
+    }, () => console.log(this.state))
   }
 
   setListingDetails (data) {
     let listing = {
+      id: data.id,
       hostId: data.hostId, 
       rate: data.rate,
       reviewsCount: data.reviews.total_reviews,
@@ -67,6 +56,9 @@ class ReservationBox extends React.Component {
 
 
   render() {
+
+    if (!this.state.listing) return null;
+
     return (
       <div className="container">
         <ListingSnippet 
@@ -74,8 +66,8 @@ class ReservationBox extends React.Component {
         />
         <ReservationDetails 
           listing={this.state.listing} 
-          onDatesSelect={this.handleDatesSelect.bind(this)} 
-          onClearDates={this.handleDatesReset.bind(this)}
+          onDatesSet={this.handleDatesSelect.bind(this)} 
+          onDatesReset={this.handleDatesReset.bind(this)}
         />
         <Promo 
           views={this.state.listing.weeklyViews} 
