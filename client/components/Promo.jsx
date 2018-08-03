@@ -5,7 +5,7 @@ import ViewsCount from './ViewsCount.jsx';
 const Promo = (props) => {
   let details = null;
 
-  if (props.hasSetDates && props.views >= 200) {
+  if (props.hasDates && props.views >= 200) {
   	details = <RareFind />;
   } else details = <ViewsCount views={props.views} />;
 
