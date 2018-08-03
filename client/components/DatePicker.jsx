@@ -21,9 +21,7 @@ class DatePicker extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    let hasCheckIn = this.props.checkInDate;
-    let hasSameProps = this.props.checkInDate === prev.Props.checkInDate;
-    let 
+
     if (this.props.checkInDate && this.props.checkInDate !== prevProps.checkInDate){
 
       this.getFirstUnavailableDateAfterCheckIn();
@@ -79,8 +77,7 @@ class DatePicker extends React.Component {
 
   getFirstUnavailableDateAfterCheckIn() {
     let context = this;
-    if(this.state.firsBookingAfterCheckIn)
-    debugger;
+
     let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
     let url = `/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
     fetch(url)
@@ -117,7 +114,7 @@ class DatePicker extends React.Component {
 
     let vacancyStart = checkIn;
     let vacancyEnd = checkOut || this.state.firsBookingAfterCheckIn;
-debugger;
+
     if (utils.isTargetPastMonth(dateInView, vacancyStart)) {
       if (!vacancyEnd) {
         // i.e. vacancyEnd is sometime after month in view

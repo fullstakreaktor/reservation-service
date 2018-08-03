@@ -40,12 +40,12 @@ class ReservationBox extends React.Component {
     let listing = {
       id: data.id,
       hostId: data.hostId, 
-      rate: data.rate,
+      rate: Math.round(data.rate),
       reviewsCount: data.reviews.total_reviews,
       avgRating: data.reviews.avg_rating,
       minStay: data.min_stay,
       maxGuests: data.max_guests,
-      fees: data.fees,
+      fees: Math.round(data.fees),
       taxRate: data.tax_rate,
       weeklyViews: data.weekly_views
     }

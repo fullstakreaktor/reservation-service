@@ -70,12 +70,32 @@ class ReservationDetails extends React.Component {
     }
   }
 
-
   resetReservationDetails () {
     this.setState({
       adults: 1, 
       pups: 0
     }, this.clearDates);
+  }
+
+  renderSummary() {
+    if (!this.state.checkOut) return null;
+    const { listing, fees, taxRate, rate } = this.props.listing;
+    let stayLength = Math.round((this.state.checkOut.getTime() - this.state.checkIn.getTime()) / (1000*60*60*24));
+    let baseBreakdown = `$${rate} X ${stayLength} night${stayLength > 1? 's' : ''}`;
+    let basePrice = rate*stayLength;
+    let tax = Math.round((basePrice+fees)*taxRate/100);
+    let total = basePrice + fees + tax;
+    let rows = [[baseBreakdown, basePrice], ['Fees', fees], ['Taxes', tax], ['TOTAL', total]];
+    return rows.map((row, i) => {
+      let name = `summary summary${i} row`;
+      return(
+        <div key={i} className={name}>
+          <div>{row[0]}</div>
+          <div>${row[1]}</div>
+        </div>
+      )
+    });
+
   }
 
   render () {
@@ -95,6 +115,9 @@ class ReservationDetails extends React.Component {
           maxGuests={this.props.listing.maxGuests}
           onIncrease={this.increaseGuests.bind(this)}
           onDecrease={this.decreaseGuests.bind(this)}/>
+        <div className="summary-container">
+          {this.renderSummary()}
+        </div>
         <button className="book-button">Book</button>
       </div>
     )
