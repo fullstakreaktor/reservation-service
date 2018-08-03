@@ -1,30 +1,36 @@
 import React from 'react';
 
-const GuestEntry = props => (
-  <div className="guest-entry row">
-    <div className="guest-type">
-      {props.field}
-    </div>
-    <div className="guest-number row">
-      <button 
-        className="decrease-guest-button" 
-        onClick={() => props.decreaseGuests(props.field)} 
-        disabled={props.count === 0}
-      >
-        -
-      </button>
-      <div className="guest-number">
-        {props.count}
+const GuestEntry = props => {
+  let { field, count, maxReached, onDecrease, onIncrease } = props;
+  let min = 0;
+  if (field === 'adults') min = 1;
+
+  return (
+    <div className="guest-entry row">
+      <div className="guest-type">
+        {field}
       </div>
-      <button 
-        className="increase-guest-button" 
-        onClick={() => props.increaseGuests(props.field)} 
-        disabled={props.maxReached}
-      >
-        +
-      </button>
+      <div className="guest-number row">
+        <button 
+          className="decrease-guest-button" 
+          onClick={() => onDecrease(field)} 
+          disabled={count <= min}
+        >
+          -
+        </button>
+        <div className="guest-number">
+          {count}
+        </div>
+        <button 
+          className="increase-guest-button" 
+          onClick={() => onIncrease(field)} 
+          disabled={maxReached}
+        >
+          +
+        </button>
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 export default GuestEntry;

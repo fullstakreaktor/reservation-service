@@ -19,9 +19,9 @@ class Guests extends React.Component {
   	super(props);
   	this.state = {
   		showPanel: false,
-  		adults: 0,
-  		pups: 0,
-  		maxReached: false,
+  		// adults: 1,
+  		// pups: 0,
+  		// maxReached: false,
   	};
   }
 
@@ -31,26 +31,26 @@ class Guests extends React.Component {
   	});
   }
 
-  increaseGuests(guestType) {
-  	this.setState({
-  		[guestType]: this.state[guestType] + 1,
-  	}, this.setButtonsState);
-  }
+  // increaseGuests(guestType) {
+  // 	this.setState({
+  // 		[guestType]: this.state[guestType] + 1,
+  // 	}, this.setButtonsState);
+  // }
 
-  decreaseGuests(guestType) {
-  	this.setState({
-  		[guestType]: this.state[guestType] - 1,
-  	}, this.setButtonsState);
-  }
+  // decreaseGuests(guestType) {
+  // 	this.setState({
+  // 		[guestType]: this.state[guestType] - 1,
+  // 	}, this.setButtonsState);
+  // }
 
-  setButtonsState() {
-  	if (this.state.adults + this.state.pups === this.props.maxGuests) {
-      this.setState({ maxReached: true });
-  	}
-  	if (this.state.maxReached && this.state.adults + this.state.pups < this.props.maxGuests) {
-  		this.setState({ maxReached: false });
-  	}
-  }
+  // setButtonsState() {
+  // 	if (this.state.adults + this.state.pups === this.props.maxGuests) {
+  //     this.setState({ maxReached: true });
+  // 	}
+  // 	if (this.state.maxReached && this.state.adults + this.state.pups < this.props.maxGuests) {
+  // 		this.setState({ maxReached: false });
+  // 	}
+  // }
 
 
   render() {
@@ -65,8 +65,8 @@ Guests
         onClick={this.handleToggle.bind(this)}
       >
         <DropDownButtonContent
-          adults={this.state.adults}
-          pups={this.state.pups}
+          adults={this.props.adults}
+          pups={this.props.pups}
           arrowUp={this.state.showPanel}
         />
       </button>
@@ -80,10 +80,9 @@ Guests
       >
         <GuestSelectionPanel
           onClose={this.handleToggle.bind(this)}
-          counts={{ adults: this.state.adults, pups: this.state.pups }}
-          increaseGuests={this.increaseGuests.bind(this)}
-          decreaseGuests={this.decreaseGuests.bind(this)}
-          maxReached={this.state.maxReached}
+          counts={{ adults: this.props.adults, pups: this.props.pups }}
+          onIncrease={this.props.onIncrease}
+          onDecrease={this.props.onDecrease}
           maxGuests={this.props.maxGuests}
         />
       </Overlay>

@@ -8,15 +8,23 @@ class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        	showPanel: false,
-        	dateInView: this.props.checkInDate || new Date(),
-        	unavailableDates: [],
-        	reservations: [],
-    	};
+    	showPanel: false,
+    	dateInView: this.props.checkInDate || new Date(),
+    	unavailableDates: [],
+    	reservations: [],
+      firsBookingAfterCheckIn: null
+    };
   }
 
   componentDidMount() {
     this.getListingBookedDatesByMonth();
+  }
+
+  componentDidUpdate(prevProps) {
+    //TODO: figure out a more efficient place to call getFirstUnavilable()
+    if (this.props.checkInDate && this.props.checkInDate !== prevProps.checkInDate){
+      this.getFirstUnavailableDateAfterCheckIn();
+    }
   }
 
   handleOverlayToggle() {
@@ -42,12 +50,12 @@ class DatePicker extends React.Component {
   handleMonthChange(direction) {
     this.setState({
       dateInView: utils.getAdjacentMonth(this.state.dateInView, direction),
-    });
+    }, this.getListingBookedDatesByMonth);
   }
 
   handleDateSelect(date) {
     this.handleOverlayToggle();
-    this.props.handleDateSelect([...utils.getYearMonth(this.state.dateInView), date], this.setUnavailableDates.bind(this));
+    this.props.handleDateSelect([...utils.getYearMonth(this.state.dateInView), date]);
   }
 
   handleClearDate() {
@@ -56,48 +64,63 @@ class DatePicker extends React.Component {
   }
 
   getListingBookedDatesByMonth() {
-    // TODO: replace mock data with ajax get request
-    const year = this.state.dateInView.getFullYear();
-    const month = this.state.dateInView.getMonth();
-    this.setState({
-      reservations: [
-        { checkIn: new Date(year, month, 5), checkOut: new Date(year, month, 7) },
-        { checkIn: new Date(year, month, 9), checkOut: new Date(year, month, 11) },
-        { checkIn: new Date(year, month, 19), checkOut: new Date(year, month, 27) },
-      ],
-    });
+    let [year, month] = utils.getYearMonth(this.state.dateInView);
+    let url = `/api/dates/${this.props.listingId}?month=${year}-${month+1}`;
+
+    fetch(url)
+    .then(res => res.json())
+    .then((res) => this.setState({ reservations: res}, this.setUnavailableDates))
+    .catch(err => console.log(err))
   }
 
   getFirstUnavailableDateAfterCheckIn() {
-    const checkIn = this.props.checkIn;
-    // TODO: write ajax get first reservation between checkin and this month
-    const results = [];
-    if (results.length < 1) return null;
+    //TODO: work out bug - can't determine firstUnavailable if next upcoming reservation starts in the next month 
+    let context = this;
+
+    let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
+    let url = `/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        if (res.length === 0) return null;
+        else return new Date(res[0].check_in);
+      })
+      .then((res) => context.setState({ firsBookingAfterCheckIn: res}), context.setUnavailableDates)
+      .catch(err => console.log(err))
   }
 
   getUnavailableDates() {
+    //TODO: account for case where interval of vacancy < min stay
     const checkIn = this.props.checkInDate;
     const checkOut = this.props.checkOutDate;
-    const current = this.state.dateInView;
+    const dateInView = this.state.dateInView;
+    const today = new Date ();
 
-
-    if (!checkIn) return utils.blockBookedDates(this.state.reservations, this.props.minStay);
-
-    const vacancyStart = checkIn;
-    let vacancyEnd = null;
-
-    if (utils.isTargetFutureMonth(current, vacancyStart)) {
+    if(utils.isTargetPastMonth(today, dateInView)){
       return utils.blockEntireMonth();
     }
 
-    vacancyEnd = checkOut || this.getFirstUnavailableDateAfterCheckIn();
+    if (!checkIn) {
+      let blockedDates = [...utils.blockBookedDates(this.state.reservations, this.props.minStay)];
+      if (utils.isTargetSameMonth(dateInView, today)){
+        blockedDates = blockedDates.concat(utils.blockDatesBeforeTarget(today));
+      }
+      return blockedDates;
+    }
 
-    if (utils.isTargetPastMonth(current, vacancyStart)) {
+    if (utils.isTargetFutureMonth(dateInView, checkIn)) {
+      return utils.blockEntireMonth();
+    }
+
+    let vacancyStart = checkIn;
+    let vacancyEnd = checkOut || this.state.firsBookingAfterCheckIn;
+
+    if (utils.isTargetPastMonth(dateInView, vacancyStart)) {
       if (!vacancyEnd) {
         // i.e. vacancyEnd is sometime after month in view
         return [];
       }
-      if (utils.isTargetPastMonth(current, vacancyEnd)) {
+      if (utils.isTargetPastMonth(dateInView, vacancyEnd)) {
         return utils.blockEntireMonth();
       }
 

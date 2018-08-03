@@ -1,13 +1,13 @@
-# Project Name
+# Reservation Service for Airpnp
 
-> Project description
+> Booking module allows user to see general listing details, vacancies in a month, and make a reservation by choosing check-in/check-out dates on a calendar, and specify number of guests.
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/fullstakreaktor/hero-photo-service
+  - https://github.com/fullstakreaktor/Review-service
+  - https://github.com/fullstakreaktor/about-service
+  - https://github.com/fullstakreaktor/kony-proxy
 
 ## Table of Contents
 
@@ -21,19 +21,31 @@
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
 - Node 6.13.0
-- etc
+- Mysql 5.7.22 
 
 ## Development
 
-### Installing Dependencies
+### Setting Up 
 
+To create database of mock data
+From within root directory:
+
+```sh
+mysql -h localhost -u root 
+source db/schema.sql
+use reservation
+source mock-data/mock_data.sql
+```
+
+
+To install dependencies
 From within the root directory:
 
 ```sh
 npm install -g webpack
 npm install
+npm run build
+npm start
 ```
 

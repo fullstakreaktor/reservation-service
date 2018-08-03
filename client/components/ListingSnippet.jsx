@@ -14,7 +14,7 @@ const ListingSnippet = props => (
     <div className="row">
       <PawRating rating={props.listing.avgRating} />
       <div className="ratings-count">
-        {props.listing.ratingsCount}
+        {props.listing.reviewsCount}
       </div>
     </div>
   </div>
