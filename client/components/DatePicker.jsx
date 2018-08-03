@@ -20,6 +20,16 @@ class DatePicker extends React.Component {
     this.getListingBookedDatesByMonth();
   }
 
+  componentDidUpdate(prevProps) {
+    let hasCheckIn = this.props.checkInDate;
+    let hasSameProps = this.props.checkInDate === prev.Props.checkInDate;
+    let 
+    if (this.props.checkInDate && this.props.checkInDate !== prevProps.checkInDate){
+
+      this.getFirstUnavailableDateAfterCheckIn();
+    }
+  }
+
   handleOverlayToggle() {
 	    this.setState({
 	      showPanel: !this.state.showPanel,
@@ -57,10 +67,9 @@ class DatePicker extends React.Component {
   }
 
   getListingBookedDatesByMonth() {
-    // TODO: replace mock data with ajax get request
-
     let [year, month] = utils.getYearMonth(this.state.dateInView);
     let url = `/api/dates/${this.props.listingId}?month=${year}-${month+1}`;
+
     fetch(url)
     .then(res => res.json())
     .then((res) => this.setState({ reservations: res}, this.setUnavailableDates))
@@ -69,19 +78,19 @@ class DatePicker extends React.Component {
   }
 
   getFirstUnavailableDateAfterCheckIn() {
-    // TODO: write ajax get first reservation between checkin and this month
+    let context = this;
+    if(this.state.firsBookingAfterCheckIn)
+    debugger;
     let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
     let url = `/api/dates/${this.props.listingId}?targetDate=${year}-${month+1}-${date}`;
-
     fetch(url)
       .then(res => res.json())
-      .then(res => console.log(res))
       .then((res) => {
         if (res.length === 0) return null;
         else return new Date(res[0].check_in);
       })
-      .then((res) => this.setState({ firsBookingAfterCheckIn: res}))
-      .catch(error => console.log(err))
+      .then((res) => context.setState({ firsBookingAfterCheckIn: res}), context.setUnavailableDates)
+      .catch(err => console.log(err))
   }
 
   getUnavailableDates() {
@@ -90,17 +99,16 @@ class DatePicker extends React.Component {
     const dateInView = this.state.dateInView;
     const today = new Date ();
 
+    if(utils.isTargetPastMonth(today, dateInView)){
+      return utils.blockEntireMonth();
+    }
 
     if (!checkIn) {
-      let bookedDates = utils.blockBookedDates(this.state.reservations, this.props.minStay);
+      let blockedDates = [...utils.blockBookedDates(this.state.reservations, this.props.minStay)];
       if (utils.isTargetSameMonth(dateInView, today)){
-        let date = 1;
-        while (date < today.getDate()) {
-          bookedDates.add(date);
-          date += 1;
-        }
+        blockedDates = blockedDates.concat(utils.blockDatesBeforeTarget(today));
       }
-      return [...bookedDates];
+      return blockedDates;
     }
 
     if (utils.isTargetFutureMonth(dateInView, checkIn)) {
@@ -109,7 +117,7 @@ class DatePicker extends React.Component {
 
     let vacancyStart = checkIn;
     let vacancyEnd = checkOut || this.state.firsBookingAfterCheckIn;
-
+debugger;
     if (utils.isTargetPastMonth(dateInView, vacancyStart)) {
       if (!vacancyEnd) {
         // i.e. vacancyEnd is sometime after month in view
@@ -134,7 +142,7 @@ class DatePicker extends React.Component {
   setUnavailableDates() {
     this.setState({
       unavailableDates: this.getUnavailableDates(),
-    });
+    }, ()=> console.log(this.state));
   }
 
 
