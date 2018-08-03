@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS airpnp;
-CREATE DATABASE airpnp;
+DROP DATABASE IF EXISTS reservation;
+CREATE DATABASE reservation;
 
-USE airpnp;
+USE reservation;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
@@ -16,12 +16,6 @@ CREATE TABLE hosts (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE locations (
-  id INT NOT NULL AUTO_INCREMENT,
-  zipcode INT NOT NULL,
-  PRIMARY KEY (id)
-);
-
 CREATE TABLE reviews (
   id INT NOT NULL AUTO_INCREMENT,
   total_reviews INT DEFAULT 0,
@@ -32,16 +26,15 @@ CREATE TABLE reviews (
 CREATE TABLE listings (
   id INT NOT NULL AUTO_INCREMENT,
   host_id INT,
-  location_id INT,
   review_id INT,
   weekly_views INT DEFAULT 0,
   min_stay INT DEFAULT 1,
   max_guests INT,
-  fees FLOAT DEFAULT 0,
-  rate FLOAT NOT NULL,
+  fees INT DEFAULT 0,
+  tax_rate INT,
+  rate INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (host_id) REFERENCES hosts(id),
-  FOREIGN KEY (location_id) REFERENCES locations(id),
   FOREIGN KEY (review_id) REFERENCES reviews(id)
 );
 
@@ -59,9 +52,8 @@ CREATE TABLE reservations (
   guest_id INT,
   booked_dates_id INT NOT NULL,
   total_adults INT NOT NULL,
-  total_children INT DEFAULT 0,
-  total_infants INT DEFAULT 0,
-  total_charge FLOAT NOT NULL, 
+  total_pups INT DEFAULT 0,
+  total_charge INT NOT NULL, 
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (guest_id) REFERENCES users(id)
