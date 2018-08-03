@@ -22,7 +22,16 @@ app.get('/api/listings/:listingId', (req, res) => {
       res.status(500).send({ err: `Server oopsie ${err}` });
     } else if (result.length === 0) {
       res.status(404).send('No such listing')
-    } else res.send(result);
+    } else {
+      db.getReviewsByListingId(result[0].review_id, (err, reviews) => {
+        if (err) {
+          res.status(500).send({err: `Server oopsie ${err}`})
+        } else {
+          result[0].reviews = reviews[0];
+          res.send(result[0]);
+        }
+      })
+    }
   });
 
 });

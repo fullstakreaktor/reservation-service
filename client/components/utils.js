@@ -2,7 +2,6 @@
 const blockBookedDates = (reservations, minStay) => {
 	let blockedDates = new Set();
 	reservations.forEach(reservation => {
-		console.log(reservations)
 		let start = new Date (reservation.check_in).getDate();
 		let end = new Date (reservation.check_out).getDate();
 		for ( var i = 1; i < minStay; i++) {
@@ -13,7 +12,7 @@ const blockBookedDates = (reservations, minStay) => {
 			blockedDates.add(i);
 		}
 	});
-	return [...blockedDates];
+	return blockedDates;
 }
 
 const blockDatesBeforeTarget = (targetDate) => {
@@ -25,13 +24,17 @@ const blockDatesBeforeTarget = (targetDate) => {
 	return blockedDates;
 }
 
-const blockEntireMonth = () => {
-	return blockDatesBeforeTarget (32);
-}
-
 const blockDatesAfterTarget = (targetDate) => {
 	let blockedDates = [];
 	for (var i = targetDate.getDate(); i < 32; i++) {
+		blockedDates.push(i);
+	}
+	return blockedDates;
+}
+
+const blockEntireMonth = () => {
+	let blockedDates = [];
+	for (var i = 1; i < 32; i++) {
 		blockedDates.push(i);
 	}
 	return blockedDates;
@@ -50,6 +53,12 @@ const getYearMonthDate = (date) => {
 const getMonthYearString = (date) => {
 	var options = {year: 'numeric', month: 'long'};
 	return date.toLocaleString('en-US', options);
+}
+
+const getShortDate = (date) => {
+  if (!date) return null;
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
 }
 
 const getFirstDayOfMonth = (date) => {
@@ -101,10 +110,11 @@ module.exports = {
 	blockEntireMonth,
 	getYearMonth,
 	getYearMonthDate,
+	getMonthYearString,
+	getShortDate,
 	getFirstDayOfMonth,
 	getMonthLength,
 	getAdjacentMonth,
-	getMonthYearString,
 	isTargetFutureMonth,
 	isTargetSameMonth,
 	isTargetPastMonth

@@ -31,10 +31,9 @@ class ReservationDetails extends React.Component {
   }
 
   setCheckIn(dateArr) {
-    debugger;
     this.setState({
       checkIn: new Date(...dateArr),
-    }, () => console.log(this.state));
+    });
   }
 
   setCheckOut(dateArr) {

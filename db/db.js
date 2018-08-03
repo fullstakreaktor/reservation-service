@@ -10,13 +10,19 @@ const db = mysql.createConnection({
 
 
 const getListingById = ({listingId}, callback) => {
-  const queryStr = `SELECT * from listings WHERE id = ?`;
+  const queryStr = `SELECT * from listings WHERE id = ? `;
+  db.query(queryStr, listingId, callback);
+};
+
+const getReviewsByListingId = (listingId, callback) => {
+  const queryStr = `SELECT * from reviews WHERE id = ?`;
   db.query(queryStr, listingId, callback);
 };
 
 const getBookedDatesByListingId = ([listingId, year, month], callback) => {
   let startDate = [year, month, 1].join('-');
   let endDate = month === 12? [Number(year)+1, 1, 1].join('-'): [year, Number(month)+1, 1].join('-');
+  console.log(startDate, endDate, listingId);
 
   const queryStr = `SELECT check_in, check_out FROM booked_dates WHERE listing_id = ? AND check_in >= ? AND check_in < ? ORDER BY check_in`;
   db.query(queryStr, [listingId, startDate, endDate], callback);
@@ -50,6 +56,7 @@ const deleteBookedDatesById = ({listingId}, callback) => {
 
 module.exports = {
   getListingById,
+  getReviewsByListingId,
   getBookedDatesByListingId,
   getFirstBookedDateAfterTarget,
   postNewBookedDates,
