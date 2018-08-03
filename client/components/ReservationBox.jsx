@@ -27,13 +27,13 @@ class ReservationBox extends React.Component {
   handleDatesSelect () {
     this.setState({
       hasDates: true
-    },() => console.log(this.state))
+    })
   }
 
   handleDatesReset () {
     this.setState ({
       hasDates: false
-    }, () => console.log(this.state))
+    })
   }
 
   setListingDetails (data) {
@@ -51,7 +51,7 @@ class ReservationBox extends React.Component {
     }
     this.setState({
       listing: listing
-    }, () => console.log(this.state))
+    })
   }
 
 

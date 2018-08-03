@@ -21,9 +21,8 @@ class DatePicker extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-
+    //TODO: figure out a more efficient place to call getFirstUnavilable()
     if (this.props.checkInDate && this.props.checkInDate !== prevProps.checkInDate){
-
       this.getFirstUnavailableDateAfterCheckIn();
     }
   }
@@ -71,11 +70,11 @@ class DatePicker extends React.Component {
     fetch(url)
     .then(res => res.json())
     .then((res) => this.setState({ reservations: res}, this.setUnavailableDates))
-    .then(() => console.log(this.state))
     .catch(err => console.log(err))
   }
 
   getFirstUnavailableDateAfterCheckIn() {
+    //TODO: work out bug - can't determine firstUnavailable if next upcoming reservation starts in the next month 
     let context = this;
 
     let [year, month, date] = utils.getYearMonthDate(this.props.checkInDate);
@@ -91,6 +90,7 @@ class DatePicker extends React.Component {
   }
 
   getUnavailableDates() {
+    //TODO: account for case where interval of vacancy < min stay
     const checkIn = this.props.checkInDate;
     const checkOut = this.props.checkOutDate;
     const dateInView = this.state.dateInView;
@@ -139,7 +139,7 @@ class DatePicker extends React.Component {
   setUnavailableDates() {
     this.setState({
       unavailableDates: this.getUnavailableDates(),
-    }, ()=> console.log(this.state));
+    });
   }
 
 
