@@ -1,4 +1,10 @@
-const db = require('../db/db.config.js');
+const mysql = require('mysql');
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'reservation'
+});
 
 // HELPER FUNCTIONS
 const loopNtimes = (n, callback) => {
@@ -23,8 +29,8 @@ const makeQuery = (table, fields, vals) => {
 // DATA GENERATORS FOR USERS, HOSTS, LOCATIONS, REVIEWS, BOOKED_DATES, AND LISTINGS TABLES
 const makeUsersData = () => {
   const mockUsernames = ['pupofjoe', 'whalewhalewhale', 'singleFlaMingle', 'whatdoestheMDNfirefoxsay', 'toadallyCool', 'chimpion', 'couchpugtato', 'instaham', 'hipsterpotamus', 'kittyPerry', 'littlemewmaid', 'sleepingmewty'];
-  const values = [];
-  loopNtimes(200, (i) => {
+  const values = [['kittyPerry1']];
+  loopNtimes(199, (i) => {
     const n = getRandomInt(0, mockUsernames.length - 1);
     const username = mockUsernames[n] + i;
     values.push([username]);
@@ -33,12 +39,12 @@ const makeUsersData = () => {
 };
 
 const makeHostsData = () => {
-  const values = [];
-  const memo = {};
-  loopNtimes(100, () => {
+  const values = [[1]];
+  const memo = {1:1};
+  loopNtimes(120, () => {
     let userId = null;
     do {
-      userId = getRandomInt(1, 100);
+      userId = getRandomInt(2, 130);
     } while (memo[userId]);
     memo[userId] = 1;
     values.push([userId]);
@@ -46,18 +52,9 @@ const makeHostsData = () => {
   return values;
 };
 
-const makeLocationsData = () => {
-  const values = [];
-  loopNtimes(100, () => {
-    const zipcode = getRandomInt(11111, 88888);
-    values.push([zipcode]);
-  });
-  return values;
-};
-
 const makeReviewsData = () => {
-  const values = [];
-  loopNtimes(100, () => {
+  const values = [[99, 3.5]];
+  loopNtimes(120, () => {
     const totalReviews = getRandomInt(0, 1111);
     const avgRating = Math.random() * 4;
     values.push([totalReviews, avgRating]);
@@ -66,28 +63,29 @@ const makeReviewsData = () => {
 };
 
 const makeListingsData = () => {
-  const values = [];
+  const values = [[1, 1, 555, 2, 5, 5, 20, 99]];
   const memo = {
-    hostId: {},
-    locationId: {},
-    reviewId: {},
+    hostId: {1:1},
+    reviewId: {1:1},
   };
-  loopNtimes(100, () => {
-    const fields = ['hostId', 'locationId', 'reviewId'];
+  loopNtimes(98, () => {
+    const fields = ['hostId', 'reviewId'];
     let row = [];
     let id = null;
     fields.forEach((field) => {
       do {
-        id = getRandomInt(1, 100);
+        id = getRandomInt(2, 100);
       } while (memo[field][id]);
+      memo[field][id] =1;
       row.push(id);
     });
     const views = getRandomInt(0, 600);
     const minStay = getRandomInt(1, 3);
     const maxGuests = getRandomInt(2, 10);
-    const fees = getRandomFloat(1, 10);
-    const rate = getRandomFloat(1, 300);
-    row = row.concat(views, minStay, maxGuests, fees, rate);
+    const fees = getRandomInt(1, 10);
+    const taxRate = getRandomInt(1, 20);
+    const rate = getRandomInt(1, 300);
+    row = row.concat(views, minStay, maxGuests, fees, taxRate, rate);
     values.push(row);
   });
 
@@ -96,27 +94,38 @@ const makeListingsData = () => {
 
 const makeBookedDatesData = () => {
   const values = [];
-  const memo = {};
+  const memo = {1:1};
   const today = new Date(Date.now());
+  const year = today.getFullYear();
+  let month = today.getMonth();
+  values.push([1, new Date(year, month, 4), new Date (year, month, 7)]);
+  values.push([1, new Date(year, month, 15), new Date (year, month, 16)]);
+  values.push([1, new Date(year, month, 19), new Date (year, month, 22)]);
+  values.push([1, new Date(year, month + 1, 2), new Date (year, month + 1, 4)]);
+  values.push([1, new Date(year, month + 1, 17), new Date (year, month + 1, 25)]);
+  values.push([1, new Date(year, month + 2, 10), new Date (year, month + 2, 14)]);
+  values.push([1, new Date(year, month + 2, 18), new Date (year, month + 2, 20)]);
+
   loopNtimes(80, () => {
     // populate 80 unique listings
     let listingId = null;
     do {
-      listingId = getRandomInt(1, 100);
+      listingId = getRandomInt(2, 97);
     } while (memo[listingId]);
+    memo[listingId] = 1;
+
     loopNtimes(3, (i) => {
       // populate three months starting from date of current test
       // with 2 reservations each month
-      const year = today.getFullYear();
-      const month = today.getMonth() + i;
-      const date1 = getRandomInt(5, 10);
-      const date2 = getRandomInt(16, 24);
-      const stayLength1 = getRandomInt(1, 5);
-      const stayLength2 = getRandomInt(1, 5);
-      const checkIn1 = new Date(year, month, date1);
-      const checkOut1 = new Date(year, month, date1 + stayLength1);
-      const checkIn2 = new Date(year, month, date2);
-      const checkOut2 = new Date(year, month, date2 + stayLength2);
+      month = today.getMonth() + i;
+      let date1 = getRandomInt(5, 10);
+      let date2 = getRandomInt(16, 24);
+      let stayLength1 = getRandomInt(1, 5);
+      let stayLength2 = getRandomInt(1, 5);
+      let checkIn1 = new Date(year, month, date1);
+      let checkOut1 = new Date(year, month, date1 + stayLength1);
+      let checkIn2 = new Date(year, month, date2);
+      let checkOut2 = new Date(year, month, date2 + stayLength2);
       values.push([listingId, checkIn1, checkOut1]);
       values.push([listingId, checkIn2, checkOut2]);
     });
@@ -151,9 +160,8 @@ const populateListingDescriptionsTable = () => {
 const populate = () => {
   makeQuery('users', ['username'], makeUsersData());
   makeQuery('hosts', ['user_id'], makeHostsData());
-  makeQuery('locations', ['zipcode'], makeLocationsData());
   makeQuery('reviews', ['total_reviews', 'avg_rating'], makeReviewsData());
-  makeQuery('listings', ['host_id', 'location_id', 'review_id', 'weekly_views', 'min_stay', 'max_guests', 'fees', 'rate'], makeListingsData());
+  makeQuery('listings', ['host_id', 'review_id', 'weekly_views', 'min_stay', 'max_guests', 'fees', 'tax_rate', 'rate'], makeListingsData());
   makeQuery('booked_dates', ['listing_id', 'check_in', 'check_out'], makeBookedDatesData());
 };
 
