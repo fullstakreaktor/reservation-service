@@ -19,7 +19,7 @@ const GuestSelectionPanel = props => {
         onIncrease={onIncrease}
         field="pups"
         count={counts.pups}
-        maxGuests={maxGuests}
+        maxReached={maxReached}
       />
       <div className="guests-constraints-info">
         {`${maxGuests} guests maximum. Eggs don't count toward the number of guests.`}

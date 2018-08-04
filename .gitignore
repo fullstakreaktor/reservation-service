@@ -3,5 +3,10 @@
 config.js
 node_modules
 *.config.js
-Spec
+spec
 .circleci
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

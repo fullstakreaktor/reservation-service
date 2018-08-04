@@ -4,13 +4,11 @@ const db = require('../db/db.js');
 const utils = require('./utils.js');
 const PORT = process.env.PORT || 3003;
 
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 
 app.listen(PORT, () => console.log('Listening at port: ' + PORT));
 
