@@ -7,7 +7,7 @@
     "test": "jest",
     "lint": "eslint **/*.js **/*.jsx",
     "delint": "eslint --fix **/*.js **/**/*.jsx",
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "build": "webpack -d --watch"
   },
   "repository": {
